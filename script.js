@@ -1,28 +1,27 @@
+4.
 function mincost(arr) {
   if (arr.length <= 1) return 0;
 
+  // Min heap using a priority queue pattern
+  const heap = [...arr];
+  heap.sort((a, b) => a - b); // initial heapify
+
   let totalCost = 0;
 
-  // Convert the array into a min-heap behavior by sorting
-  while (arr.length > 1) {
-    // Sort array to get two smallest ropes
-    arr.sort((a, b) => a - b);
+  while (heap.length > 1) {
+    // Pop two smallest elements
+    const first = heap.shift();
+    const second = heap.shift();
 
-    // Remove two shortest ropes
-    const first = arr.shift();
-    const second = arr.shift();
-
-    // Cost to connect them
     const cost = first + second;
     totalCost += cost;
 
-    // Insert the combined rope back into the array
-    arr.push(cost);
+    // Insert the combined rope back into the heap
+    heap.push(cost);
+    heap.sort((a, b) => a - b); // Re-heapify
   }
 
   return totalCost;
 }
 
-// Example usage
-console.log(mincost([4, 3, 2, 6])); // Output: 29
-console.log(mincost([1, 2, 3, 4, 5])); // Output: 33
+module.exports = mincost;
